@@ -1,0 +1,94 @@
+#include <iostream>
+using namespace std;
+
+// Singly Linked List Node
+struct SNode
+{
+    int data;
+    SNode* next;
+};
+
+// Doubly Linked List Node
+struct DNode
+{
+    int data;
+    DNode* prev;
+    DNode* next;
+};
+
+// Function to convert Singly Linked List into Doubly Linked List
+DNode* convertToDoubly(SNode* head)
+{
+    if (head == NULL)
+        return NULL;
+
+    DNode* doublyHead = NULL;
+    DNode* doublyTail = NULL;
+
+    SNode* current = head;
+
+    while (current != NULL)
+    {
+        DNode* newNode = new DNode;
+
+        newNode->data = current->data;
+        newNode->prev = doublyTail;
+        newNode->next = NULL;
+
+        if (doublyHead == NULL)
+        {
+            doublyHead = newNode;
+        }
+        else
+        {
+            doublyTail->next = newNode;
+        }
+
+        doublyTail = newNode;
+        current = current->next;
+    }
+
+    return doublyHead;
+}
+
+// Display Singly Linked List
+void displaySingly(SNode* head)
+{
+    while (head != NULL)
+    {
+        cout << head->data << " ";
+        head = head->next;
+    }
+    cout << endl;
+}
+
+// Display Doubly Linked List
+void displayDoubly(DNode* head)
+{
+    while (head != NULL)
+    {
+        cout << head->data << " ";
+        head = head->next;
+    }
+    cout << endl;
+}
+
+int main()
+{
+    // Creating Singly Linked List
+    SNode* head = new SNode{10, NULL};
+    head->next = new SNode{20, NULL};
+    head->next->next = new SNode{30, NULL};
+    head->next->next->next = new SNode{40, NULL};
+
+    cout << "Singly Linked List: ";
+    displaySingly(head);
+
+    // Convert to Doubly Linked List
+    DNode* doublyHead = convertToDoubly(head);
+
+    cout << "Doubly Linked List: ";
+    displayDoubly(doublyHead);
+
+    return 0;
+}
